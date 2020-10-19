@@ -1,0 +1,200 @@
+DEBUG 2020-09-16 14:17:35.257 UTC: 	 CRAB Client version: v3.200812
+DEBUG 2020-09-16 14:17:35.257 UTC: 	 Running on: Linux lxplus705.cern.ch 3.10.0-1127.18.2.el7.x86_64 #1 SMP Sun Jul 26 15:27:06 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux - CentOS Linux 7 (Core)
+DEBUG 2020-09-16 14:17:35.257 UTC: 	 Executing command: 'submit'
+DEBUG 2020-09-16 14:17:35.259 UTC: 	 Found CRAB cache file /afs/cern.ch/user/p/pgardner/.crab3
+INFO 2020-09-16 14:17:35.279 UTC: 	 Will use CRAB configuration file crab_UL.py
+DEBUG 2020-09-16 14:17:35.280 UTC: 	 Loading CRAB configuration file.
+DEBUG 2020-09-16 14:17:35.282 UTC: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+DEBUG 2020-09-16 14:17:35.296 UTC: 	 Checking credentials
+DEBUG 2020-09-16 14:17:35.296 UTC: 	 Found proxy file /tmp/x509up_u124983
+DEBUG 2020-09-16 14:17:35.296 UTC: 	 Getting proxy life time left
+DEBUG 2020-09-16 14:17:35.901 UTC: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u124983 -timeleft
+ output : 43127
+
+ error: 
+ retcode : 0
+DEBUG 2020-09-16 14:17:36.613 UTC: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u124983 -actimeleft
+ output : 43126
+
+ error: 
+ retcode : 0
+DEBUG 2020-09-16 14:17:36.613 UTC: 	 Proxy lifetime 43127 secs is different from voms extension lifetime 43126 secs for proxy: /tmp/x509up_u124983
+DEBUG 2020-09-16 14:17:36.613 UTC: 	 Proxy valid for 11:58:46 hours
+DEBUG 2020-09-16 14:17:37.319 UTC: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u124983 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2020-09-16 14:17:37.439 UTC: 	 Registering user credentials for server /DC=ch/DC=cern/OU=computers/CN=vocms0105.cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch
+DEBUG 2020-09-16 14:17:38.161 UTC: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u124983 -identity
+ output : /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=pgardner/CN=839719/CN=Parker Gardner
+
+ error: 
+ retcode : 0
+DEBUG 2020-09-16 14:17:38.161 UTC: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2020-09-16 14:17:38.161 UTC: 	 Calculating hash of /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=pgardner/CN=839719/CN=Parker Gardner_cmsweb.cern.ch for credential name
+DEBUG 2020-09-16 14:17:38.567 UTC: 	 Executing : 
+ command : myproxy-info -l c6858d516b058c0a35d6a6d5e6a07717b1f5c1bb -s myproxy.cern.ch
+ output : username: c6858d516b058c0a35d6a6d5e6a07717b1f5c1bb
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=pgardner/CN=839719/CN=Parker Gardner
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms0105.cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms0105.cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch
+  timeleft: 339:32:37  (14.1 days)
+
+ error: 
+ retcode : 0
+DEBUG 2020-09-16 14:17:38.568 UTC: 	 Myproxy is valid: 1222357
+DEBUG 2020-09-16 14:17:38.673 UTC: 	 Executing : 
+ command : openssl x509 -noout -in ~/.globus/usercert.pem -dates
+ output : notBefore=Sep 23 17:01:37 2019 GMT
+notAfter=Oct 27 17:01:37 2020 GMT
+
+ error: 
+ retcode : 0
+DEBUG 2020-09-16 14:17:38.684 UTC: 	 Delegating a myproxy for 720:00 hours
+DEBUG 2020-09-16 14:17:38.685 UTC: 	 Calculating hash of /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=pgardner/CN=839719/CN=Parker Gardner_cmsweb.cern.ch for credential name
+DEBUG 2020-09-16 14:17:47.310 UTC: 	 Executing : 
+ command : export GT_PROXY_MODE=rfc ; myproxy-init -d -n -s myproxy.cern.ch -x -R '/DC=ch/DC=cern/OU=computers/CN=vocms0105.cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch' -x -Z '/DC=ch/DC=cern/OU=computers/CN=vocms0105.cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch' -l 'c6858d516b058c0a35d6a6d5e6a07717b1f5c1bb' -t 168:00 -c 720:00
+ output : Your identity: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=pgardner/CN=839719/CN=Parker Gardner
+Creating proxy ............................................................. Done
+Proxy Verify OK
+Your proxy is valid until: Fri Oct 16 16:17:46 2020
+A proxy valid for 720 hours (30.0 days) for user c6858d516b058c0a35d6a6d5e6a07717b1f5c1bb now exists on myproxy.cern.ch.
+
+ error: 
+ retcode : 0
+DEBUG 2020-09-16 14:17:47.310 UTC: 	 Calculating hash of /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=pgardner/CN=839719/CN=Parker Gardner_cmsweb.cern.ch for credential name
+DEBUG 2020-09-16 14:17:47.716 UTC: 	 Executing : 
+ command : myproxy-info -l c6858d516b058c0a35d6a6d5e6a07717b1f5c1bb -s myproxy.cern.ch
+ output : username: c6858d516b058c0a35d6a6d5e6a07717b1f5c1bb
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=pgardner/CN=839719/CN=Parker Gardner
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms0105.cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms0105.cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch
+  timeleft: 719:59:59  (30.0 days)
+
+ error: 
+ retcode : 0
+DEBUG 2020-09-16 14:17:47.716 UTC: 	 My-proxy delegated.
+DEBUG 2020-09-16 14:17:47.716 UTC: 	 Retrieving username ...
+DEBUG 2020-09-16 14:17:47.716 UTC: 	 Retrieving username from CRIC...
+DEBUG 2020-09-16 14:17:48.641 UTC: 	 username is pgardner
+DEBUG 2020-09-16 14:17:48.648 UTC: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2020-09-16 14:17:48.649 UTC: 	 using pgardner_CRAB as credential login name
+DEBUG 2020-09-16 14:17:49.153 UTC: 	 Executing : 
+ command : myproxy-info -l pgardner_CRAB -s myproxy.cern.ch
+ output : username: pgardner_CRAB
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=pgardner/CN=839719/CN=Parker Gardner
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms0105.cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms0105.cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch
+  timeleft: 339:30:26  (14.1 days)
+
+ error: 
+ retcode : 0
+DEBUG 2020-09-16 14:17:49.154 UTC: 	 Myproxy is valid: 1222226
+DEBUG 2020-09-16 14:17:49.259 UTC: 	 Executing : 
+ command : openssl x509 -noout -in ~/.globus/usercert.pem -dates
+ output : notBefore=Sep 23 17:01:37 2019 GMT
+notAfter=Oct 27 17:01:37 2020 GMT
+
+ error: 
+ retcode : 0
+DEBUG 2020-09-16 14:17:49.259 UTC: 	 Delegating a myproxy for 720:00 hours
+DEBUG 2020-09-16 14:17:49.259 UTC: 	 using pgardner_CRAB as credential login name
+DEBUG 2020-09-16 14:17:55.482 UTC: 	 Executing : 
+ command : export GT_PROXY_MODE=rfc ; myproxy-init -d -n -s myproxy.cern.ch -x -R '/DC=ch/DC=cern/OU=computers/CN=vocms0105.cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch' -x -Z '/DC=ch/DC=cern/OU=computers/CN=vocms0105.cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch' -l 'pgardner_CRAB' -t 168:00 -c 720:00
+ output : Your identity: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=pgardner/CN=839719/CN=Parker Gardner
+Creating proxy ........................................................................................................... Done
+Proxy Verify OK
+Your proxy is valid until: Fri Oct 16 16:17:55 2020
+A proxy valid for 720 hours (30.0 days) for user pgardner_CRAB now exists on myproxy.cern.ch.
+
+ error: 
+ retcode : 0
+DEBUG 2020-09-16 14:17:55.482 UTC: 	 using pgardner_CRAB as credential login name
+DEBUG 2020-09-16 14:17:55.790 UTC: 	 Executing : 
+ command : myproxy-info -l pgardner_CRAB -s myproxy.cern.ch
+ output : username: pgardner_CRAB
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=pgardner/CN=839719/CN=Parker Gardner
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms0105.cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms0105.cern.ch|/DC=ch/DC=cern/OU=computers/CN=crab-(preprod|prod|dev)-tw(02|01).cern.ch|/DC=ch/DC=cern/OU=computers/CN=(ddi|ddidk|mytw).cern.ch|/DC=ch/DC=cern/OU=computers/CN=stefanov(m|m2).cern.ch
+  timeleft: 720:00:00  (30.0 days)
+
+ error: 
+ retcode : 0
+DEBUG 2020-09-16 14:17:55.791 UTC: 	 My-proxy delegated.
+DEBUG 2020-09-16 14:17:55.791 UTC: 	 Command use: submit
+DEBUG 2020-09-16 14:17:55.791 UTC: 	 Options use: ['-c', 'crab_UL.py']
+DEBUG 2020-09-16 14:17:55.893 UTC: 	 CRABClient version: v3.200812
+DEBUG 2020-09-16 14:17:55.894 UTC: 	 Instance is prod
+DEBUG 2020-09-16 14:17:55.894 UTC: 	 Server base url is cmsweb.cern.ch
+DEBUG 2020-09-16 14:17:55.894 UTC: 	 Command url /crabserver/prod/workflow
+DEBUG 2020-09-16 14:17:55.894 UTC: 	 Started submission
+DEBUG 2020-09-16 14:17:55.894 UTC: 	 Working on /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1/src/HeavyIonsAnalysis/TrackAnalysis/python/crab_20200916_161735
+DEBUG 2020-09-16 14:17:56.070 UTC: 	 Loading required information from the environment
+DEBUG 2020-09-16 14:17:56.071 UTC: 	 Found CMSSW_10_6_4_patch1 for slc7_amd64_gcc700 with base /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1
+DEBUG 2020-09-16 14:17:56.071 UTC: 	 Loading required information from the environment
+DEBUG 2020-09-16 14:17:56.071 UTC: 	 Found CMSSW_10_6_4_patch1 for slc7_amd64_gcc700 with base /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1
+DEBUG 2020-09-16 14:17:56.071 UTC: 	 UNIQUE NAME: tarUUID 6c2c7f2a-6593-4df5-ba64-b4e1bee189b5 
+DEBUG 2020-09-16 14:17:56.071 UTC: 	 self.config: from WMCore.Configuration import Configuration
+config = Configuration()
+config.section_('General')
+config.General.transferOutputs = True
+config.section_('JobType')
+config.JobType.psetName = 'test_UL_D_ak8.py'
+config.JobType.pluginName = 'Analysis'
+config.JobType.outputFiles = ['output_UL_D_ak8.root']
+config.JobType.allowUndistributedCMSSW = True
+config.section_('Data')
+config.Data.inputDataset = '/JetHT/Run2018D-12Nov2019_UL2018-v4/MINIAOD'
+config.Data.publication = False
+config.Data.unitsPerJob = 150
+config.Data.splitting = 'LumiBased'
+config.Data.inputDBS = 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader'
+config.Data.outLFNDirBase = '/store/user/pgardner/MINIAOD_UL_D_ak8'
+config.Data.lumiMask = 'https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions18/13TeV/ReReco/Cert_314472-325175_13TeV_Legacy2018_Collisions18_JSON.txt'
+config.section_('User')
+config.section_('Site')
+config.Site.storageSite = 'T3_US_Rice'
+
+DEBUG 2020-09-16 14:17:56.071 UTC: 	 self.config.JobType.psetName: test_UL_D_ak8.py
+INFO 2020-09-16 14:17:56.071 UTC: 	 Importing CMSSW configuration test_UL_D_ak8.py
+INFO 2020-09-16 14:17:57.802 UTC: 	 Finished importing CMSSW configuration test_UL_D_ak8.py
+DEBUG 2020-09-16 14:17:57.802 UTC: 	 Writing CMSSW configuration to /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1/src/HeavyIonsAnalysis/TrackAnalysis/python/crab_20200916_161735/inputs/PSet.py
+DEBUG 2020-09-16 14:17:57.858 UTC: 	 The following EDM output files will be collected: []
+DEBUG 2020-09-16 14:17:57.858 UTC: 	 The following TFile output files will be collected: ['output_UL_D_ak8.root']
+DEBUG 2020-09-16 14:17:57.858 UTC: 	 The following user output files (not listed as PoolOuputModule or TFileService in the CMSSW PSet) will be collected: 
+DEBUG 2020-09-16 14:17:57.858 UTC: 	 Loading required information from the environment
+DEBUG 2020-09-16 14:17:57.858 UTC: 	 Found CMSSW_10_6_4_patch1 for slc7_amd64_gcc700 with base /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1
+DEBUG 2020-09-16 14:17:57.858 UTC: 	 Making tarball in /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1/src/HeavyIonsAnalysis/TrackAnalysis/python/crab_20200916_161735/inputs/6c2c7f2a-6593-4df5-ba64-b4e1bee189b5default.tgz
+DEBUG 2020-09-16 14:17:57.859 UTC: 	 Checking directory /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1/lib
+DEBUG 2020-09-16 14:17:57.859 UTC: 	 Adding directory /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1/lib to tarball
+DEBUG 2020-09-16 14:17:57.865 UTC: 	 Checking directory /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1/biglib
+DEBUG 2020-09-16 14:17:57.865 UTC: 	 Adding directory /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1/biglib to tarball
+DEBUG 2020-09-16 14:17:57.866 UTC: 	 Checking directory /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1/module
+DEBUG 2020-09-16 14:17:57.868 UTC: 	 Adding data directory /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1/src/HeavyIonsAnalysis/TrackAnalysis/interface to tarball
+DEBUG 2020-09-16 14:17:57.909 UTC: 	 Uploading archive /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1/src/HeavyIonsAnalysis/TrackAnalysis/python/crab_20200916_161735/inputs/6c2c7f2a-6593-4df5-ba64-b4e1bee189b5default.tgz (65 KB) to the CRAB cache. Using URI https://cmsweb.cern.ch/crabcache
+DEBUG 2020-09-16 14:17:58.034 UTC: 	 Loading required information from the environment
+DEBUG 2020-09-16 14:17:58.035 UTC: 	 Found CMSSW_10_6_4_patch1 for slc7_amd64_gcc700 with base /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1
+DEBUG 2020-09-16 14:17:58.035 UTC: 	 Making tarball in /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1/src/HeavyIonsAnalysis/TrackAnalysis/python/crab_20200916_161735/inputs/debugFiles.tgz
+DEBUG 2020-09-16 14:17:58.039 UTC: 	 Uploading archive /afs/cern.ch/user/p/pgardner/CMSSW_10_6_4_patch1/src/HeavyIonsAnalysis/TrackAnalysis/python/crab_20200916_161735/inputs/debugFiles.tgz (1 KB) to the CRAB cache. Using URI https://cmsweb.cern.ch/crabcache
+DEBUG 2020-09-16 14:17:58.108 UTC: 	 Result uploading input files: c986cb71f2a8783e68207b8ff261c814c26b64b5b872465af8660c7c046ff977.tar.gz 
+DEBUG 2020-09-16 14:17:58.108 UTC: 	 Attaching lumi mask https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions18/13TeV/ReReco/Cert_314472-325175_13TeV_Legacy2018_Collisions18_JSON.txt to the request
+DEBUG 2020-09-16 14:17:58.108 UTC: 	 Downloading lumi-mask from https://cms-service-dqm.web.cern.ch/cms-service-dqm/CAF/certification/Collisions18/13TeV/ReReco/Cert_314472-325175_13TeV_Legacy2018_Collisions18_JSON.txt
+ERROR 2020-09-16 14:17:58.135 UTC: 	 Problem downloading lumi-mask file; 404 Not Found
+ERROR 2020-09-16 14:17:58.136 UTC: 	 Caught ClientException exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.200812.00/bin/crab", line 165, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.200812.00/bin/crab", line 152, in __call__
+    self.cmd()
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.200812.00/lib/CRABClient/Commands/submit.py", line 105, in __call__
+    dummy_inputfiles, jobconfig = plugjobtype.run(filecacheurl)
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.200812.00/lib/CRABClient/JobType/Analysis.py", line 208, in run
+    lumi_list = getLumiList(lumi_mask_name, logger = self.logger)
+  File "/cvmfs/cms.cern.ch/share/cms/crab-prod/v3.200812.00/lib/CRABClient/JobType/LumiMask.py", line 28, in getLumiList
+    % (err.code, err.msg))
+ConfigurationException: Problem downloading lumi-mask file; 404 Not Found
