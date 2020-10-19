@@ -12,7 +12,7 @@ process.source = cms.Source("PoolSource",
 
 # number of events to process, set to -1 to process all events
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(100)
+    input = cms.untracked.int32(10)
     )
 
 # load Global Tag, geometry, etc.
@@ -24,7 +24,7 @@ process.load('FWCore.MessageService.MessageLogger_cfi')
 
 # root output
 process.TFileService = cms.Service("TFileService",
-    fileName = cms.string("output.root"))
+    fileName = cms.string("output_MC.root"))
 
 process.hlt = HLTrigger.HLTfilters.hltHighLevel_cfi.hltHighLevel.clone()
 process.hlt.HLTPaths = ['HLT_PFJet500*'] # for allphysics
@@ -42,12 +42,17 @@ process.analyzer = cms.EDAnalyzer('TrackAnalyzer',
     packedCandSrc = cms.InputTag("packedPFCandidates"),
     lostTracksSrc = cms.InputTag("lostTracks"),
     beamSpotSrc = cms.untracked.InputTag('offlineBeamSpot'),
-    jets2 = cms.InputTag("slimmedJetsPuppi")
+    jets2 = cms.InputTag("slimmedJetsPuppi"),
+    doGen = cms.untracked.bool(True),
+    genEvtInfo = cms.InputTag("generator"),
+    packedGen = cms.InputTag("packedGenParticles"),
+    genJets = cms.InputTag("slimmedGenJets"),
+    puSummaryInfo = cms.InputTag("slimmedAddPileupInfo")
 )
 
 # main forest sequence
 process.runAnalyzer = cms.Path(
-    process.eventFilterHLT*
+#    process.eventFilterHLT*
     process.analyzer
     )
 
