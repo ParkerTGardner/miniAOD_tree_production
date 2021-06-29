@@ -6,7 +6,7 @@ process = cms.Process('Analysis')
 process.source = cms.Source("PoolSource",
     duplicateCheckMode = cms.untracked.string("noDuplicateCheck"),
     fileNames = cms.untracked.vstring(
-        "/store/group/phys_heavyions/FECEF784-7DCA-984D-AF75-1991ACA0747A.root"
+        "/store/group/REMOVE/phys_heavyions/FECEF784-7DCA-984D-AF75-1991ACA0747A.root"
         ),
     )
 
@@ -24,7 +24,7 @@ process.load('FWCore.MessageService.MessageLogger_cfi')
 
 # root output
 process.TFileService = cms.Service("TFileService",
-    fileName = cms.string("output_UL_D_ak8.root"))
+    fileName = cms.string("output_UL_2018_D_ak8.root"))
 
 process.hlt = HLTrigger.HLTfilters.hltHighLevel_cfi.hltHighLevel.clone()
 process.hlt.HLTPaths = ['HLT_AK8PFJet500*'] # for allphysics
