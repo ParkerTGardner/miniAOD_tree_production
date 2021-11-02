@@ -41,9 +41,6 @@
 #include "SimTracker/Records/interface/TrackAssociatorRecord.h"
 #include "DataFormats/PatCandidates/interface/PackedCandidate.h"
 #include "DataFormats/Common/interface/ValueMap.h"
-#include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
-#include "DataFormats/Common/interface/TriggerResults.h" 
-#include "FWCore/Common/interface/TriggerNames.h"
 
 // Particle Flow
 #include "DataFormats/ParticleFlowCandidate/interface/PFCandidate.h"
@@ -51,13 +48,9 @@
 #include "DataFormats/ParticleFlowReco/interface/PFCluster.h"
 #include "DataFormats/ParticleFlowReco/interface/PFClusterFwd.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
-#include "DataFormats/JetReco/interface/GenJet.h"
 #include "DataFormats/PatCandidates/interface/PackedCandidate.h"
 
-//Gen info
-#include "DataFormats/PatCandidates/interface/PackedGenParticle.h"
-#include "DataFormats/Candidate/interface/Candidate.h"
-#include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
+
 
 // Vertex significance
 #include "RecoBTag/SecondaryVertex/interface/SecondaryVertex.h"
@@ -78,7 +71,6 @@ class TrackAnalyzer : public edm::EDAnalyzer {
 
     void fillVertices(const edm::Event& iEvent);
     void fillJets2(const edm::Event& iEvent);
-    void fillGen(const edm::Event& iEvent);
     void fillTracks(const edm::Event& iEvent, const edm::EventSetup& iSetup);
     void clearVectors();
 
@@ -92,14 +84,12 @@ class TrackAnalyzer : public edm::EDAnalyzer {
      edm::InputTag packedCandLabel_;
      edm::EDGetTokenT<edm::View<pat::PackedCandidate>> packedCandSrc_;
      //edm::EDGetTokenT<pat::PackedCandidateCollection> packedCandSrc_;
-     
+
      edm::InputTag lostTracksLabel_;
      edm::EDGetTokenT<edm::View<pat::PackedCandidate>> lostTracksSrc_;
      //edm::EDGetTokenT<pat::PackedCandidateCollection> lostTracksSrc_;
 
      edm::EDGetTokenT<reco::BeamSpot> beamSpotProducer_;
-
-     edm::EDGetTokenT< std::vector< PileupSummaryInfo > > puSummary_;
 
      //edm::InputTag jets1_;
      //edm::EDGetTokenT<pat::JetCollection> jets1Token_;
@@ -110,10 +100,6 @@ class TrackAnalyzer : public edm::EDAnalyzer {
      //edm::InputTag jets4_;
      //edm::EDGetTokenT<pat::JetCollection> jets4Token_;
 
-     edm::EDGetTokenT<edm::View<pat::PackedGenParticle> > packedGenToken_;
-     edm::EDGetTokenT< std::vector<reco::GenJet> > packedGenJetToken_;
-
-     edm::EDGetTokenT< GenEventInfoProduct > genEvtInfo_;
 
      edm::EDGetTokenT<pat::PackedCandidateCollection> pfToken_;
 
@@ -123,17 +109,15 @@ class TrackAnalyzer : public edm::EDAnalyzer {
      edm::EDGetTokenT<edm::ValueMap<float>> chi2MapLost_;
 
      edm::Service<TFileService> fs;
- 
+
      // Root object
      TTree* trackTree_;
      //TTree* jetTree_;
 
-     bool doGen;
-
      //Branch entries
-     int nRun;
-     int nEv;
-     int nLumi;
+     UInt_t nRun;
+     ULong64_t nEv;
+     UInt_t nLumi;
      std::vector< float > xVtx;
      std::vector< float > yVtx;
      std::vector< float > zVtx;
@@ -165,7 +149,7 @@ class TrackAnalyzer : public edm::EDAnalyzer {
      std::vector< float > trkDzErrAssociatedVtx;
      std::vector< float > trkDxyAssociatedVtx;
      std::vector< float > trkDxyErrAssociatedVtx;
-     
+
      std::vector< int > trkFirstVtxQuality;
      std::vector< float > trkDzFirstVtx;
      std::vector< float > trkDzErrFirstVtx;
@@ -183,14 +167,6 @@ class TrackAnalyzer : public edm::EDAnalyzer {
      std::vector< int   > chargedMultiplicity;
      int jetN;
 
-     float genQScale;
-     float genWeight;
-     int   genSignalProcessID;
-
-     std::vector< float > genJetEta;
-     std::vector< float > genJetPt;
-     std::vector< float > genJetPhi;
-     std::vector< int > genJetChargedMultiplicity;
 
      std::vector<std::vector<int>>		dau_chg;
      std::vector<std::vector<int>>	        dau_pid;
@@ -199,6 +175,12 @@ class TrackAnalyzer : public edm::EDAnalyzer {
      std::vector<std::vector<float>>		dau_eta;
      std::vector<std::vector<float>>		dau_phi;
      std::vector<std::vector<float>>      	dau_theta;
+
+     std::vector<std::vector<double>>		dau_pt_STAR;
+     std::vector<std::vector<double>>		dau_eta_STAR;
+     std::vector<std::vector<double>>		dau_phi_STAR;
+     std::vector<std::vector<double>>      	dau_theta_STAR;
+
      std::vector<std::vector<float>>		dau_vz;
      std::vector<std::vector<float>>		dau_vy;
      std::vector<std::vector<float>>		dau_vx;
@@ -208,29 +190,7 @@ class TrackAnalyzer : public edm::EDAnalyzer {
      std::vector<std::vector<float>>		dau_vp_difZ;
      std::vector<std::vector<float>>		dau_vp_difY;
      std::vector<std::vector<float>>		dau_vp_difX;
-
-     
-     std::vector<std::vector<int>>		gendau_chg;
-     std::vector<std::vector<int>>	        gendau_pid;
-     std::vector<std::vector<float>>		gendau_pt;
-     std::vector<std::vector<float>>		gendau_eta;
-     std::vector<std::vector<float>>		gendau_phi;
-
-
-    int pu;
-    int puTrue;
-    std::vector< float > puZ;
-    std::vector< float > puPthat;
-    std::vector< float > puSumPt0p1;
-    std::vector< float > puSumPt0p5;
-    std::vector< int > puNTrk0p1;
-    std::vector< int > puNTrk0p5;
-
-    float minJetPt;
-    float maxJetEta;
-
-    edm::EDGetTokenT<edm::TriggerResults> tok_triggerResults_;
-    bool didHLTFire;
+     std::vector<std::vector<int>>            dau_cohort;
 
 };
 
@@ -265,13 +225,13 @@ void TrackAnalyzer::clearVectors(){
   trkDzErrAssociatedVtx.clear();
   trkDxyAssociatedVtx.clear();
   trkDxyErrAssociatedVtx.clear();
-  
+
   trkFirstVtxQuality.clear();
   trkDzFirstVtx.clear();
   trkDzErrFirstVtx.clear();
   trkDxyFirstVtx.clear();
   trkDxyErrFirstVtx.clear();
- 
+
   jetEta.clear();
   jetPt.clear();
   jetPhi.clear();
@@ -288,6 +248,12 @@ dau_pt.clear();
 dau_eta.clear();
 dau_phi.clear();
 dau_theta.clear();
+
+dau_pt_STAR.clear();
+dau_eta_STAR.clear();
+dau_phi_STAR.clear();
+dau_theta_STAR.clear();
+
 dau_vz.clear();
 dau_vy.clear();
 dau_vx.clear();
@@ -297,35 +263,10 @@ dau_vrefx.clear();
 dau_vp_difZ.clear();
 dau_vp_difY.clear();
 dau_vp_difX.clear();
-
+dau_cohort.clear();
 dau_pt_sum.clear();
 //jetN.clear();
-  genQScale = -1;
-  genWeight = -1;
-  genSignalProcessID = -1;
 
-  genJetEta.clear();
-  genJetPhi.clear();
-  genJetPt.clear();
-  genJetChargedMultiplicity.clear();
-
-  gendau_chg.clear();
-  gendau_pid.clear();
-  gendau_pt.clear();
-  gendau_eta.clear();
-  gendau_phi.clear();
-
-
-  pu = -1;
-  puTrue = -1;
-  puZ.clear();
-  puPthat.clear();
-  puSumPt0p1.clear();
-  puSumPt0p5.clear();
-  puNTrk0p1.clear();
-  puNTrk0p5.clear();
-
-  didHLTFire = false;
 }
 
 #endif 
