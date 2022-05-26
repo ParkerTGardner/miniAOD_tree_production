@@ -24,6 +24,29 @@
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/VertexReco/interface/VertexFwd.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
+
+#include "CondFormats/DataRecord/interface/L1TUtmTriggerMenuRcd.h"
+#include "CondFormats/L1TObjects/interface/L1TUtmAlgorithm.h"
+#include "CondFormats/L1TObjects/interface/L1TUtmTriggerMenu.h"
+#include "DataFormats/Candidate/interface/Candidate.h"
+#include "DataFormats/Common/interface/Handle.h"
+#include "DataFormats/Common/interface/TriggerResults.h"
+#include "DataFormats/EcalDigi/interface/EcalDigiCollections.h"
+#include "DataFormats/HcalDigi/interface/HcalDigiCollections.h"
+#include "DataFormats/L1CaloTrigger/interface/L1CaloCollections.h"
+#include "DataFormats/L1TGlobal/interface/GlobalAlgBlk.h"
+#include "DataFormats/L1TGlobal/interface/GlobalExtBlk.h"
+#include "DataFormats/METReco/interface/CaloMETCollection.h"
+#include "FWCore/Common/interface/Provenance.h"
+#include "FWCore/Framework/interface/EventPrincipal.h"
+#include "FWCore/ParameterSet/interface/ParameterSet.h"
+#include "HLTrigger/HLTcore/interface/HLTPrescaleProvider.h"
+
+
+
+
+
+
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/EventSetup.h"
@@ -41,6 +64,9 @@
 #include "SimTracker/Records/interface/TrackAssociatorRecord.h"
 #include "DataFormats/PatCandidates/interface/PackedCandidate.h"
 #include "DataFormats/Common/interface/ValueMap.h"
+#include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
+#include "DataFormats/Common/interface/TriggerResults.h" 
+#include "FWCore/Common/interface/TriggerNames.h"
 
 // Particle Flow
 #include "DataFormats/ParticleFlowCandidate/interface/PFCandidate.h"
@@ -48,8 +74,13 @@
 #include "DataFormats/ParticleFlowReco/interface/PFCluster.h"
 #include "DataFormats/ParticleFlowReco/interface/PFClusterFwd.h"
 #include "DataFormats/PatCandidates/interface/Jet.h"
+#include "DataFormats/JetReco/interface/GenJet.h"
 #include "DataFormats/PatCandidates/interface/PackedCandidate.h"
 
+//Gen info
+#include "DataFormats/PatCandidates/interface/PackedGenParticle.h"
+#include "DataFormats/Candidate/interface/Candidate.h"
+#include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
 
 
 // Vertex significance
@@ -71,6 +102,7 @@ class TrackAnalyzer : public edm::EDAnalyzer {
 
     void fillVertices(const edm::Event& iEvent);
     void fillJets2(const edm::Event& iEvent);
+    void fillGen(const edm::Event& iEvent);
     void fillTracks(const edm::Event& iEvent, const edm::EventSetup& iSetup);
     void clearVectors();
 
@@ -90,7 +122,7 @@ class TrackAnalyzer : public edm::EDAnalyzer {
      //edm::EDGetTokenT<pat::PackedCandidateCollection> lostTracksSrc_;
 
      edm::EDGetTokenT<reco::BeamSpot> beamSpotProducer_;
-
+     edm::EDGetTokenT< std::vector< PileupSummaryInfo > > puSummary_;
      //edm::InputTag jets1_;
      //edm::EDGetTokenT<pat::JetCollection> jets1Token_;
      edm::InputTag jets2_;
@@ -99,6 +131,11 @@ class TrackAnalyzer : public edm::EDAnalyzer {
      //edm::EDGetTokenT<pat::JetCollection> jets3Token_;
      //edm::InputTag jets4_;
      //edm::EDGetTokenT<pat::JetCollection> jets4Token_;
+
+     edm::EDGetTokenT<edm::View<pat::PackedGenParticle> > packedGenToken_;
+     edm::EDGetTokenT< std::vector<reco::GenJet> > packedGenJetToken_;
+
+     edm::EDGetTokenT< GenEventInfoProduct > genEvtInfo_;
 
 
      edm::EDGetTokenT<pat::PackedCandidateCollection> pfToken_;
@@ -112,10 +149,17 @@ class TrackAnalyzer : public edm::EDAnalyzer {
 
      // Root object
      TTree* trackTree_;
+    bool doGen;
      //TTree* jetTree_;
 
      //Branch entries
      UInt_t nRun;
+     bool MAINpassTrig1;//didHLTFire400;
+     bool MAINpassTrig2;//didHLTFire400;
+     bool MAINpassTrig3;//didHLTFire400;
+     //bool didHLTFire500;
+     //bool didHLTFire550;
+     //bool didHLTFire550NOT;
      ULong64_t nEv;
      UInt_t nLumi;
      std::vector< float > xVtx;
@@ -167,10 +211,22 @@ class TrackAnalyzer : public edm::EDAnalyzer {
      std::vector< int   > chargedMultiplicity;
      int jetN;
 
+     float genQScale;
+     float genWeight;
+     int   genSignalProcessID;
+
+     std::vector< float > genJetEta;
+     std::vector< float > genJetPt;
+     std::vector< float > genJetPhi;
+     std::vector< int > genJetChargedMultiplicity;
+
 
      std::vector<std::vector<int>>		dau_chg;
      std::vector<std::vector<int>>	        dau_pid;
      std::vector<std::vector<unsigned int>>	dau_vref;
+     std::vector<std::vector<float>>        dau_ptError;
+     std::vector<std::vector<float>>        dau_ZDCAsig;
+     std::vector<std::vector<float>>        dau_XYDCAsig;
      std::vector<std::vector<float>>		dau_pt;
      std::vector<std::vector<float>>		dau_eta;
      std::vector<std::vector<float>>		dau_phi;
@@ -190,8 +246,26 @@ class TrackAnalyzer : public edm::EDAnalyzer {
      std::vector<std::vector<float>>		dau_vp_difZ;
      std::vector<std::vector<float>>		dau_vp_difY;
      std::vector<std::vector<float>>		dau_vp_difX;
-     std::vector<std::vector<int>>            dau_cohort;
+     std::vector<std::vector<int>>          gendau_chg;
+     std::vector<std::vector<int>>          gendau_pid;
+     std::vector<std::vector<float>>        gendau_pt;
+     std::vector<std::vector<float>>        gendau_eta;
+     std::vector<std::vector<float>>        gendau_phi;
 
+
+    int pu;
+    int puTrue;
+    std::vector< float > puZ;
+    std::vector< float > puPthat;
+    std::vector< float > puSumPt0p1;
+    std::vector< float > puSumPt0p5;
+    std::vector< int > puNTrk0p1;
+    std::vector< int > puNTrk0p5;
+
+    float minJetPt;
+    float maxJetEta;
+
+    edm::EDGetTokenT<edm::TriggerResults> tok_triggerResults_;
 };
 
 void TrackAnalyzer::clearVectors(){
@@ -245,6 +319,9 @@ dau_chg.clear();
 dau_pid.clear();
 dau_vref.clear();
 dau_pt.clear();
+dau_ptError.clear();
+dau_XYDCAsig.clear();
+dau_ZDCAsig.clear();
 dau_eta.clear();
 dau_phi.clear();
 dau_theta.clear();
@@ -263,9 +340,35 @@ dau_vrefx.clear();
 dau_vp_difZ.clear();
 dau_vp_difY.clear();
 dau_vp_difX.clear();
-dau_cohort.clear();
+//dau_cohort.clear();
 dau_pt_sum.clear();
 //jetN.clear();
+
+  genQScale = -1;
+  genWeight = -1;
+  genSignalProcessID = -1;
+
+  genJetEta.clear();
+  genJetPhi.clear();
+  genJetPt.clear();
+  genJetChargedMultiplicity.clear();
+
+  gendau_chg.clear();
+  gendau_pid.clear();
+  gendau_pt.clear();
+  gendau_eta.clear();
+  gendau_phi.clear();
+
+
+  pu = -1;
+  puTrue = -1;
+  puZ.clear();
+  puPthat.clear();
+  puSumPt0p1.clear();
+  puSumPt0p5.clear();
+  puNTrk0p1.clear();
+  puNTrk0p5.clear();
+
 
 }
 
